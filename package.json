@@ -4,7 +4,7 @@
   "description": "A brief description of what this project does and who it's for\r - This project is a initial release of price scrapper of Mcdonalds Australia via its Native Andorid Application. The scope of this project is to aid Marketing and Finance team to understand the pattern of the competitors while setting up their menu pricing.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "wdio"
   },
   "repository": {
     "type": "git",
