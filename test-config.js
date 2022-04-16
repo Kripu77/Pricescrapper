@@ -17,6 +17,8 @@ exports.config = {
   specs: [
       'C:\\Users\\kripu.khadka\\OneDrive - Competitive Foods Australia Pty Ltd\\Documents\\GitHub\\Pricescrapper\\PlayWithMocha.js'
   ], 
+
+  //array required for wdio which will connect to the appium server and start the app on emulator.
   capabilities:[{
     "deviceName": "Android Emulator",
     "platformName": "Android",
