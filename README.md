@@ -10,6 +10,18 @@ A brief description of what this project does and who it's for
 Install MCD PRICE SCRAPPER with npm
 
 ```bash
+  install all the dependenices. 
+  npm init --save
+  npm i webdriverio --save
+  npm i @wdio/cli --save
+  npm i @wdio/local-runner
+  npm i @wdio/sync
+  npm i @wdio/mocha-framework
+  npm i --save csvtojson
+
+setup babel.config.js file as per the node version
+
+
   npm install MCD PRICE SCRAPPER
   cd MCD-PRICE SCrapper. 
 

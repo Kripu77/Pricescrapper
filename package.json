@@ -1,7 +1,7 @@
 {
   "name": "pricescrapper",
   "version": "1.0.0",
-  "description": "A brief description of what this project does and who it's for\r - This project is a initial release of price scrapper of Mcdonalds Australia via its Native Andorid Application. The scope of this project is to aid Marketing and Finance team to understand the pattern of the competitors while setting up their menu pricing.",
+  "description": "- This project is a initial release of price scrapper of Mcdonalds Australia via its Native Andorid Application. The scope of this project is to aid Marketing and Finance team to understand the pattern of the competitors while setting up their menu pricing.",
   "main": "index.js",
   "scripts": {
     "test": "wdio"
@@ -22,7 +22,10 @@
     "@wdio/local-runner": "^7.19.5",
     "@wdio/mocha-framework": "^7.19.5",
     "@wdio/sync": "^7.19.5",
-    "webdriverio": "^7.19.5"
+    "csvtojson": "^2.0.10",
+    "exceljs": "^4.3.0",
+    "webdriverio": "^7.19.5",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.6",
