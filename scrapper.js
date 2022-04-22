@@ -16,7 +16,9 @@ exports.config = {
   //include what file you would like to reference here while running the js test file
   specs: [
     //   'C:\\Users\\kripu.khadka\\OneDrive - Competitive Foods Australia Pty Ltd\\Documents\\GitHub\\Pricescrapper\\PlayWithMocha.js', 
-      'C:\\Users\\kripu.khadka\\OneDrive - Competitive Foods Australia Pty Ltd\\Documents\\GitHub\\Pricescrapper\\api\\click.js'
+      'C:\\Users\\kripu.khadka\\OneDrive - Competitive Foods Australia Pty Ltd\\Documents\\GitHub\\Pricescrapper\\api\\login.js',
+      'C:\\Users\\kripu.khadka\\OneDrive - Competitive Foods Australia Pty Ltd\\Documents\\GitHub\\Pricescrapper\\api\\searchMCD.js'
+
   ], 
 
   //array required for wdio which will connect to the appium server and start the app on emulator.
