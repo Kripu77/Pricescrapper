@@ -81,11 +81,12 @@ describe("Click on the Log In Button", async () => {
       'new UiSelector().text("Enter Suburb or Postcode").className("android.widget.EditText")';
     const store_name = await $(`android=${store_selector}`);
     await store_name.setValue("Kings Cross");
-    // await browser.pause(12000);
+    
     await driver.pressKeyCode(66); //From android docs refer to keyEvent Constant Value: 66 (0x00000042)
   });
 
   it("should click on the order here button", async () => {
+     await browser.pause(6000);
     const order_selector =
       'new UiSelector().text("Order Here").className("android.widget.TextView")';
     const order_btn = await $(`android=${order_selector}`);
