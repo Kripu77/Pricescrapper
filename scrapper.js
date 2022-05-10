@@ -10,7 +10,7 @@ exports.config = {
     require: ["@babel/register"],
     timeout: 600000,
   },
-  maxInstances: 1,
+  maxInstances: 100,
   sync: true,
 
   //include what file you would like to reference here while running the js test file

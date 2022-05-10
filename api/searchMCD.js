@@ -1,6 +1,6 @@
 const{ loginJS }= require("./login.js"); //refer to login.js file in this directory, it is used as module 
-const {searchProducts} = require("./fileReader.js"); //contains JSON file for the store list
-const {searchData} = require("./search.js"); //contains all the products to be searched. 
+const {searchProducts} = require("./fileReader.js"); //contains JSON file for the products
+const {searchData} = require("./search.js"); //contains all the stores to be searched. 
 const itemName = []; //initial state to store searched products name
 const itemPrice =[]; //initial state to store the item price
 const compliedPrice = [{
@@ -38,6 +38,16 @@ describe("This case ensures all the products from the searchProd CSV file are en
 
     await browser.pause(3000);
   });
+  it("should check if the change location button exits", async()=>{
+    const changeLocation  =
+      'new UiSelector().text("Change Location").className("android.widget.TextView")';
+    const changeLocation_checker = await $$(`android=${changeLocation}`);
+    if(changeLocation_checker.length>0){
+      await changeLocation_checker.click();
+    }
+    
+    await browser.pause(3000);
+  })
 
   it("should click on the search store btn", async () => {
     const searchBtn = "~Search icon";
@@ -65,6 +75,19 @@ await order_btn.waitForDisplayed({timeout:30000});
     // 
     await browser.pause(6000);
   });
+  describe('nested statement to "it" cases loop for search products', async()=>{
+
+  
+
+  it('should search products in a loop', async ()=>{
+
+
+
+searchProducts.forEach((searchProduct)=>{
+
+
+
+describe('should click supply the prods in a loop', async()=>{
 
 
 
@@ -86,7 +109,7 @@ await order_btn.waitForDisplayed({timeout:30000});
     const selector =
       'new UiSelector().text("Search").className("android.widget.EditText")';
     const input = await $(`android=${selector}`);
-    await input.setValue(`${searchProducts[0].searchProd}`);
+    await input.setValue(`${searchProduct.searchProd}`);
     await driver.pressKeyCode(66);
 
     await browser.pause(1000);
@@ -110,27 +133,39 @@ return el.getText()
     await browser.pause(6000);
   })
 
-it('should complie the prod name and data into the array of objects and before its written down in the csv file', async()=>{
+
   
 
-  itemName.forEach((value, index)=>{
-    compliedPrice.push({
-      productName:itemName[index], 
-      price : itemPrice[index]
-    })
-  })
-console.log(compliedPrice)
-})
-  it('should write the data', async()=>{
-   compliedPrice.map((value)=>{
-    fs.writeFile(`./results/${searchData[0].storeName}_Product_Extract.csv`, `${value.productName}, ${value.price}\n`, {flag:'a'}, (err, result)=>{
-      if(err) throw err;
-          })
-      
-        }) 
-   }) 
-
    backBtn();
+  })
+})
+describe("this test block contains the file writer", async function(){
+  it('should complie the prod name and data into the array of objects and before its written down in the csv file', async()=>{
+  
+
+    itemName.forEach((value, index)=>{
+      compliedPrice.push({
+        productName:itemName[index], 
+        price : itemPrice[index]
+      })
+    })
+  console.log(compliedPrice)
+  })
+  
+  it('should write the data', async()=>{
+    compliedPrice.map((value)=>{
+     fs.writeFile(`./results/${searchData[0].storeName}_Product_Extract.csv`, `${value.productName}, ${value.price}\n`, {flag:'a'}, (err, result)=>{
+       if(err) throw err;
+           })
+       
+         }) 
+    }) 
+
+})
+})
+
+})
+
 });
 
 
