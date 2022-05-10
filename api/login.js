@@ -7,7 +7,7 @@ const loginJS = async()=>{
 
   //login test case
  
-    await browser.pause(3000);
+    await browser.pause(13000);
     const LOGIN_BUTTON = "~Log in";
 
     await $(LOGIN_BUTTON).click();

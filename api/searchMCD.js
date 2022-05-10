@@ -1,7 +1,10 @@
 const{ loginJS }= require("./login.js"); //refer to login.js file in this directory, it is used as module 
 const {searchProducts} = require("./fileReader.js"); //contains JSON file for the store list
 const {searchData} = require("./search.js"); //contains all the products to be searched. 
+const itemName = [];
+const itemPrice =[];
 
+const fs = require('fs');
 
 
 describe("This case ensures all the products from the searchProd CSV file are entered and record the items", async () => {
@@ -42,6 +45,7 @@ describe("This case ensures all the products from the searchProd CSV file are en
     await store_name.setValue(`${searchData[0].storeName}`);
    
     await driver.pressKeyCode(66); //From android docs refer to keyEvent Constant Value: 66 (0x00000042)
+    await browser.pause(6000);
   });
 
   it("should click on the order here button", async () => {
@@ -79,13 +83,23 @@ describe("This case ensures all the products from the searchProd CSV file are en
 
   it("should get the title and price of the item searched", async()=>{
 
-   const menu_listing = await browser
-      .$("id:com.mcdonalds.au.gma:id/product_title;").getText();
-      // .map((el) => {
+  //  const menu_listing = await browser
+  //     .$("id:product_title;").click();
       //   return el.getText();
       // });
+      const menu_listing = await browser.$('id=com.mcdonalds.au.gma:id/product_title');
     // familyMenu.push(menu_listing);
-    console.log(menu_listing);
+    // console.log(menu_listing);
+    console.log(menu_listing.getText())
+
+    itemName.push(menu_listing.getText())
     await browser.pause(6000);
   })
 });
+
+
+fs.writeFile('./results/test.csv', itemName, (err, res)=>{
+if(err){
+  console.log(err)
+}
+})
