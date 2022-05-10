@@ -139,7 +139,7 @@ return el.getText()
    backBtn();
   })
 })
-describe("this test block contains the file writer", async function(){
+describe("this test block contains the file writer", async ()=>{
   it('should complie the prod name and data into the array of objects and before its written down in the csv file', async()=>{
   
 
@@ -153,10 +153,9 @@ describe("this test block contains the file writer", async function(){
   })
   
   it('should write the data', async()=>{
+    // used sync file writer over async to fix up the mix up while writing proccess
     compliedPrice.map((value)=>{
-     fs.writeFile(`./results/${searchData[0].storeName}_Product_Extract.csv`, `${value.productName}, ${value.price}\n`, {flag:'a'}, (err, result)=>{
-       if(err) throw err;
-           })
+     fs.writeFileSync(`./results/${searchData[0].storeName}_${timeStamp}_Product_Extract.csv`, `${value.productName}, ${value.price}\n`, {flag:'a'})
        
          }) 
     }) 
