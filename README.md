@@ -1,7 +1,7 @@
 # MCD PRICE SCRAPPER
 
 A brief description of what this project does and who it's for
-- This project is a initial release of price scrapper of Mcdonalds Australia via its Native Andorid Application. The scope of this project is to aid Marketing and Finance team to understand the pattern of the competitors while setting up their menu pricing. 
+- This project is a initial release of price scrapper of Mcdonalds Australia via its Native Andorid Application. 
 
 
 
@@ -12,6 +12,8 @@ Install MCD PRICE SCRAPPER with npm
 ```bash
   install all the dependenices. 
   npm init --save
+
+  ********Note: These dependecies are only required for fresh setup// npm init --save does the drill if you are looking to make this scrapper work on your machine. ******
   npm i webdriverio --save
   npm i @wdio/cli --save
   npm i @wdio/local-runner

@@ -3,7 +3,7 @@ const backBtn = () => {
       const backBtn = "~Back";
       await $(backBtn).click();
 
-      await browser.pause(13000);
+      await browser.pause(1000);
     });
   };
 
