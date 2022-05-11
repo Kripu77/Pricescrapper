@@ -84,25 +84,32 @@
 // // //     console.log(searchProducts)
 // // //   },1000)
 
-// // const products = ['water', 'milk', 'pinespplr', 'spple'];
-// // const price = [3,5,6,8];
+const products = ['water', 'milk', 'pinespplr', 'spple'];
+const price = [3,5,6,8];
 
-// // const prod = [];
+const prod = [];
 
-// // products.forEach((value, index)=>{
-// // prod.push({
-// //   productName:products[index], 
-// //   price : price[index]
-// // })
+products.forEach((value, index)=>{
+prod.push({
+  productName:products[index], 
+  price : price[index]
+})
 
 
-// // })
+})
 
-// // console.log(prod)
+console.log(prod)
+
+async function test(){
+  prod.splice(1, prod.length)
+}
+test();
+
+console.log(prod)
 // const {backBtn} = require('./backBtnClicker');
 // console.log(backBtn)
 
 
-describe('test', async()=>{
+// describe('test', async()=>{
     
-})
+// })

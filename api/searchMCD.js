@@ -46,7 +46,11 @@ describe("This case ensures all the products from the searchProd CSV file are en
                 const changeLocation_checker = await browser.$(
                   "id=com.mcdonalds.au.gma:id/location_or_address_text"
                 );
-               await changeLocation_checker.isExisting().click();
+
+              changeLocation_checker.waitForExist(1000);
+              console.log(changeLocation_checker.waitForExist(1000));
+              await changeLocation_checker.click();
+
 
                 await browser.pause(3000);
               });
@@ -146,12 +150,16 @@ describe("This case ensures all the products from the searchProd CSV file are en
                   // used sync file writer over async to fix up the mix up while writing proccess, use async is any concurrent task.
                   compliedPrice.map((value) => {
                     fs.writeFileSync(
-                      `./results/${searchData[0].storeName}_Product_Extract_${timeStamp}.csv`,
+                      `./results/${searchDataX.storeName}_Product_Extract_${timeStamp}.csv`,
                       `${value.productName}, ${value.price}\n`,
                       { flag: "a" }
                     );
                     console.log(`Data written in the results folder`);
                   });
+                  //to clean up the array as the state is storing older values, observered this implication while looping over
+                  itemName.splice(0, itemName.length);
+                  itemPrice.splice(0, itemPrice.length);
+                  compliedPrice.splice(0, compliedPrice.length);
                 });
               });
             });
