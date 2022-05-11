@@ -159,7 +159,7 @@ describe("This case ensures all the products from the searchProd CSV file are en
                   //to clean up the array as the state is storing older values, observered this implication while looping over
                   itemName.splice(0, itemName.length);
                   itemPrice.splice(0, itemPrice.length);
-                  compliedPrice.splice(0, compliedPrice.length);
+                  compliedPrice.splice(1, compliedPrice.length);
                 });
               });
             });
