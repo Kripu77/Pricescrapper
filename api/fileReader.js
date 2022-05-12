@@ -1,16 +1,18 @@
 
 const fs = require('fs')
 const csv = require('csvtojson')
+const path = require('path')
 
-const path = `C:\\Users\\kripu.khadka\\OneDrive - Competitive Foods Australia Pty Ltd\\Documents\\GitHub\\Pricescrapper\\sourceFiles\\searchProd.csv`;
+const file = `${path.resolve(__dirname, '../sourceFiles/searchProd.csv')}`;
 const searchProducts= []
 async function json (){
-  const jsonArray = await csv().fromFile(path)
+  const jsonArray = await csv().fromFile(file)
   // console.log( jsonArray);
 searchProducts.push(...jsonArray)
 }
 
 json()
+
 
 
 

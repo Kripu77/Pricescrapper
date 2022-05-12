@@ -1,3 +1,5 @@
+const path = require('path')
+
 exports.config = {
   runner: "local",
   host: "localhost",
@@ -15,8 +17,10 @@ exports.config = {
 
   //include what file you would like to reference here while running the js test file
   specs: [
-    //   'C:\\Users\\kripu.khadka\\OneDrive - Competitive Foods Australia Pty Ltd\\Documents\\GitHub\\Pricescrapper\\PlayWithMocha.js', 
-      'C:\\Users\\kripu.khadka\\OneDrive - Competitive Foods Australia Pty Ltd\\Documents\\GitHub\\Pricescrapper\\api\\searchMCD.js',
+  
+  
+   ` ${path.resolve(__dirname, './api/searchMCD.js')}`
+     
      
   ], 
 

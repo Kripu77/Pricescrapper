@@ -2,14 +2,15 @@ const { loginJS } = require("./login.js"); //refer to login.js file in this dire
 const { searchProducts } = require("./fileReader.js"); //contains JSON file for the products
 const { searchData } = require("./search.js"); //contains all the stores to be searched.
 const itemName = []; //initial state to store searched products name
-const itemPrice = []; //initial state to store the item price\
+const itemPrice = []; //initial state to store the item price
 
+ //initial state of the array of objects which is used as a reference to write down the csv file
 const compliedPrice = [
   {
     productName: "Products",
     price: "Price",
   },
-]; //initial state of the array of objects which is used as a reference to write down the csv file
+];
 
 const timeStamp = new Date().toLocaleDateString().replaceAll("/", ""); //timestamp uID for stores
 
