@@ -4,7 +4,7 @@ const { searchData } = require("./search.js"); //contains all the stores to be s
 const itemName = []; //initial state to store searched products name
 const itemPrice = []; //initial state to store the item price
 
- //initial state of the array of objects which is used as a reference to write down the csv file
+//initial state of the array of objects which is used as a reference to write down the csv file
 const compliedPrice = [
   {
     productName: "Products",
@@ -16,6 +16,7 @@ const timeStamp = new Date().toLocaleDateString().replaceAll("/", ""); //timesta
 
 const fs = require("fs");
 const { backBtn } = require("./backBtnClicker"); //back button clicker module
+const {changeLocation_checker} = require('./globalVar.js')
 
 describe("This case ensures all the products from the searchProd CSV file are entered and record the items", async () => {
   it("should execute the login script", async () => {
@@ -37,21 +38,22 @@ describe("This case ensures all the products from the searchProd CSV file are en
     await browser.pause(3000);
   });
 
-  describe("new", async () => {
-    it("should", async () => {
+  describe("Netsted statement for looping over", async () => {
+    it("should loop over the stores available", async () => {
       searchData.forEach((searchDataX) => {
-        describe("clause", async () => {
+        describe("Statement to execure the store input in a loop", async () => {
           it("should check if the change location button exits", async () => {
             describe("clause", async () => {
               it("should check if the change location button exits", async () => {
-                const changeLocation_checker = await browser.$(
-                  "id=com.mcdonalds.au.gma:id/location_or_address_text"
-                );
-
-              changeLocation_checker.waitForExist(1000);
-              console.log(changeLocation_checker.waitForExist(1000));
-              await changeLocation_checker.click();
-
+                // const changeLocation_checker = await browser.$(
+                //   "id=com.mcdonalds.au.gma:id/location_or_address_text"
+                // );
+//execute only if the change location button exist on the view port
+                if (
+                 await browser.$(changeLocation_checker).isDisplayed()
+                ) {
+                  await browser.$(changeLocation_checker).click();
+                }
 
                 await browser.pause(3000);
               });
