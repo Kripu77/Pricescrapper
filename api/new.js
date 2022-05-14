@@ -120,11 +120,3 @@
 
 // console.log(path.resolve(__dirname, './api/searchMCD.js'))
 
-
-const app = ['apple', 'ball', 'cat'];
-
-const nnew = app.map((value, index)=>{
-return value[0]
-})
-
-console.log(nnew)
