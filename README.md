@@ -32,15 +32,12 @@ setup babel.config.js file as per the node version
   Node --v (This will give you the version of node installed in your machine)
 ```
     
-## Roadmap
 
-- XLSX Download, REST API. 
-- Filter data as per store location.
 
 
 
 ## Tech Stack
-- Android Studio for Emulator
+- Android Studio/ Emulator
 - Appium server
 - Java 8
 - Node Js

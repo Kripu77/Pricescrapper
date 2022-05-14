@@ -1,7 +1,7 @@
 {
   "name": "pricescrapper",
   "version": "1.0.0",
-  "description": "- This project is a initial release of price scrapper of Mcdonalds Australia via its Native Andorid Application. The scope of this project is to aid Marketing and Finance team to understand the pattern of the competitors while setting up their menu pricing.",
+  "description": "- This project is a initial release of price scrapper of Mcdonalds Australia via its Native Andorid Application.",
   "main": "index.js",
   "scripts": {
     "test": "wdio"
