@@ -19,7 +19,7 @@ exports.config = {
   specs: [
   
   
-   ` ${path.resolve(__dirname, './api/searchMCD.js')}`
+   ` ${path.resolve(__dirname, './api/meal.js')}`
      
      
   ], 
