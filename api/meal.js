@@ -212,24 +212,7 @@ describe("This case ensures all the products from the searchProd CSV file are en
                    
                     if(await browser.$(`android=${large_drink}`).isDisplayed()){
 
-                      await browser.$(`android=${large_drink}`).click();
-                      await browser.pause(4000)
-
-                      const large_size_drink = await browser
-                        .$$("id=com.mcdonalds.au.gma:id/product_name")
-                        .map((el) => {
-                          return el.getText();
-                        });
-  
-                      const large_size_price = await browser
-                        .$$("id=com.mcdonalds.au.gma:id/product_details")
-                        .map((el) => {
-                          return el.getText();
-                        });
-  
-                     
-                      itemName.push(...large_size_drink);
-                      itemPrice.push(...large_size_price);
+                      
 
                       //click on small menu button
                        await browser.$(`android=${medium_drink}`).click();
@@ -252,7 +235,24 @@ describe("This case ensures all the products from the searchProd CSV file are en
 
                      
 
-                  
+                     await browser.$(`android=${large_drink}`).click();
+                     await browser.pause(4000)
+
+                     const large_size_drink = await browser
+                       .$$("id=com.mcdonalds.au.gma:id/product_name")
+                       .map((el) => {
+                         return el.getText();
+                       });
+ 
+                     const large_size_price = await browser
+                       .$$("id=com.mcdonalds.au.gma:id/product_details")
+                       .map((el) => {
+                         return el.getText();
+                       });
+ 
+                    
+                     itemName.push(...large_size_drink);
+                     itemPrice.push(...large_size_price);
  
 
                     }
