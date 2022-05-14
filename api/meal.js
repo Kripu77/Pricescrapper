@@ -16,7 +16,7 @@ const timeStamp = new Date().toLocaleDateString().replaceAll("/", ""); //timesta
 
 const fs = require("fs");
 const { backBtn } = require("./backBtnClicker"); //back button clicker module
-const { changeLocation_checker, mealButton_checker, small_meal, large_meal } = require("./globalVar.js");
+const { changeLocation_checker, mealButton_checker, small_meal, large_meal, medium_drink, large_drink } = require("./globalVar.js");
 
 describe("This case ensures all the products from the searchProd CSV file are entered and record the items", async () => {
   it("should execute the login script", async () => {
@@ -208,9 +208,56 @@ describe("This case ensures all the products from the searchProd CSV file are en
                       }
                   })
 
-                  it("should snap the title and price of the medium meal which is selected by default", async()=>{
+                  it("should snap the title and price of the medium and large drinks/shakes", async()=>{
                    
-                  })
+                    if(await browser.$(`android=${large_drink}`).isDisplayed()){
+
+                      await browser.$(`android=${large_drink}`).click();
+                      await browser.pause(4000)
+
+                      const large_size_drink = await browser
+                        .$$("id=com.mcdonalds.au.gma:id/product_name")
+                        .map((el) => {
+                          return el.getText();
+                        });
+  
+                      const large_size_price = await browser
+                        .$$("id=com.mcdonalds.au.gma:id/product_details")
+                        .map((el) => {
+                          return el.getText();
+                        });
+  
+                     
+                      itemName.push(...large_size_drink);
+                      itemPrice.push(...large_size_price);
+
+                      //click on small menu button
+                       await browser.$(`android=${medium_drink}`).click();
+                       const medium_size_drink = await browser
+                       .$$("id=com.mcdonalds.au.gma:id/product_name")
+                       .map((el) => {
+                         return el.getText();
+                       });
+ 
+                     const medium_size_price = await browser
+                       .$$("id=com.mcdonalds.au.gma:id/product_details")
+                       .map((el) => {
+                         return el.getText();
+                       });
+ 
+                     
+ 
+                     itemName.push(...medium_size_drink);
+                     itemPrice.push(...medium_size_price);
+
+                     
+
+                  
+ 
+
+                    }
+                })
+                  
 
                   it("should click on the cross icon", async () => {
                     await browser
