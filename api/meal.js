@@ -1,4 +1,4 @@
-const { loginJS } = require("./login.js"); //refer to login.js file in this directory, it is used as module
+const { loginJS } = require("./login.js"); //refer to login.js module in this directory, it is used as module
 const { searchProducts } = require("./fileReader.js"); //contains JSON file for the products
 const { searchData } = require("./search.js"); //contains all the stores to be searched.
 const itemName = []; //initial state to store searched products name
@@ -16,7 +16,17 @@ const timeStamp = new Date().toLocaleDateString().replaceAll("/", ""); //timesta
 
 const fs = require("fs");
 const { backBtn } = require("./backBtnClicker"); //back button clicker module
-const { changeLocation_checker, mealButton_checker, small_meal, large_meal, medium_drink, large_drink, small_cafe, medium_cafe, large_cafe } = require("./globalVar.js");
+const {
+  changeLocation_checker,
+  mealButton_checker,
+  small_meal,
+  large_meal,
+  medium_drink,
+  large_drink,
+  small_cafe,
+  medium_cafe,
+  large_cafe,
+} = require("./globalVar.js");
 
 describe("This case ensures all the products from the searchProd CSV file are entered and record the items", async () => {
   it("should execute the login script", async () => {
@@ -112,24 +122,15 @@ describe("This case ensures all the products from the searchProd CSV file are en
                     await browser.pause(2000); //alter this as per your local connection speed.
                   });
 
-                  it("should get the title and price of the item searched", async () => {
-                    const menu_clicker = await browser
-                      .$$("id=com.mcdonalds.au.gma:id/product_title")[0]
-                      .click(); //to ensure it clicks on the 1st menu item
-                  });
-                  //   .map((el) => {
-                  //     return el.click();
-                  //   });
                   it("should get the product name and price in to the array", async () => {
-                   await browser.pause(4000)
+                    await browser.pause(4000);
                     const menu_listing = await browser
-                      .$$("id=com.mcdonalds.au.gma:id/product_name")
+                      .$$("id=com.mcdonalds.au.gma:id/product_title")
                       .map((el) => {
                         return el.getText();
                       });
-
                     const price_listing = await browser
-                      .$$("id=com.mcdonalds.au.gma:id/product_detailss" || "id=com.mcdonalds.au.gma:id/product_details")
+                      .$$("id=com.mcdonalds.au.gma:id/calorie_price_info")
                       .map((el) => {
                         return el.getText();
                       });
@@ -141,195 +142,181 @@ describe("This case ensures all the products from the searchProd CSV file are en
                     itemPrice.push(...price_listing);
                   });
 
-                  it("should excute this if the make it a meal button exist", async()=>{
-                      if(await browser.$(`android=${mealButton_checker}`).isDisplayed()){
+                  it("should get the title and price of the item searched", async () => {
+                    const menu_clicker = await browser
+                      .$$("id=com.mcdonalds.au.gma:id/product_title")[0]
+                      .click(); //to ensure it clicks on the 1st menu item
+                  });
+                  
 
-                        await browser.$(`android=${mealButton_checker}`).click();
-                        await browser.pause(4000)
+                  it("should excute this if the make it a meal button exist", async () => {
+                    if (
+                      await browser
+                        .$(`android=${mealButton_checker}`)
+                        .isDisplayed()
+                    ) {
+                      await browser.$(`android=${mealButton_checker}`).click();
+                      await browser.pause(4000);
 
-                        const meal_size = await browser
-                          .$$("id=com.mcdonalds.au.gma:id/product_name")
-                          .map((el) => {
-                            return el.getText();
-                          });
-    
-                        const meal_price = await browser
-                          .$$("id=com.mcdonalds.au.gma:id/product_detailss")
-                          .map((el) => {
-                            return el.getText();
-                          });
-    
-                        console.log(meal_size);
-                        console.log(meal_price);
-    
-                        itemName.push(...meal_size);
-                        itemPrice.push(...meal_price);
+                      const meal_size = await browser
+                        .$$("id=com.mcdonalds.au.gma:id/product_name")
+                        .map((el) => {
+                          return el.getText();
+                        });
 
-                        //click on small menu button
-                         await browser.$(`android=${small_meal}`).click();
-                         const small_size = await browser
-                         .$$("id=com.mcdonalds.au.gma:id/product_name")
-                         .map((el) => {
-                           return el.getText();
-                         });
-   
-                       const small_price = await browser
-                         .$$("id=com.mcdonalds.au.gma:id/product_detailss")
-                         .map((el) => {
-                           return el.getText();
-                         });
-   
-                       
-   
-                       itemName.push(...small_size);
-                       itemPrice.push(...small_price);
+                      const meal_price = await browser
+                        .$$("id=com.mcdonalds.au.gma:id/product_detailss")
+                        .map((el) => {
+                          return el.getText();
+                        });
 
-                       
-                       //click on large meal
+                      console.log(meal_size);
+                      console.log(meal_price);
 
-                       await browser.$(`android=${large_meal}`).click();
-                         const large_size = await browser
-                         .$$("id=com.mcdonalds.au.gma:id/product_name")
-                         .map((el) => {
-                           return el.getText();
-                         });
-   
-                       const large_price = await browser
-                         .$$("id=com.mcdonalds.au.gma:id/product_detailss")
-                         .map((el) => {
-                           return el.getText();
-                         });
-   
-                       
-   
-                       itemName.push(...large_size);
-                       itemPrice.push(...large_price);
-
-                      }
-                  })
-
-                  it("should snap the title and price of the medium and large drinks/shakes", async()=>{
-                   
-                    if(await browser.$(`android=${large_drink}`).isDisplayed()){
-
-                      
+                      itemName.push(...meal_size);
+                      itemPrice.push(...meal_price);
 
                       //click on small menu button
-                       await browser.$(`android=${medium_drink}`).click();
-                       const medium_size_drink = await browser
-                       .$$("id=com.mcdonalds.au.gma:id/product_name")
-                       .map((el) => {
-                         return el.getText();
-                       });
- 
-                     const medium_size_price = await browser
-                       .$$("id=com.mcdonalds.au.gma:id/product_details")
-                       .map((el) => {
-                         return el.getText();
-                       });
- 
-                     
- 
-                     itemName.push(...medium_size_drink);
-                     itemPrice.push(...medium_size_price);
+                      await browser.$(`android=${small_meal}`).click();
+                      const small_size = await browser
+                        .$$("id=com.mcdonalds.au.gma:id/product_name")
+                        .map((el) => {
+                          return el.getText();
+                        });
 
-                     
+                      const small_price = await browser
+                        .$$("id=com.mcdonalds.au.gma:id/product_detailss")
+                        .map((el) => {
+                          return el.getText();
+                        });
 
-                     await browser.$(`android=${large_drink}`).click();
-                     await browser.pause(4000)
+                      itemName.push(...small_size);
+                      itemPrice.push(...small_price);
 
-                     const large_size_drink = await browser
-                       .$$("id=com.mcdonalds.au.gma:id/product_name")
-                       .map((el) => {
-                         return el.getText();
-                       });
- 
-                     const large_size_price = await browser
-                       .$$("id=com.mcdonalds.au.gma:id/product_details")
-                       .map((el) => {
-                         return el.getText();
-                       });
- 
-                    
-                     itemName.push(...large_size_drink);
-                     itemPrice.push(...large_size_price);
- 
+                      //click on large meal
 
+                      await browser.$(`android=${large_meal}`).click();
+                      const large_size = await browser
+                        .$$("id=com.mcdonalds.au.gma:id/product_name")
+                        .map((el) => {
+                          return el.getText();
+                        });
+
+                      const large_price = await browser
+                        .$$("id=com.mcdonalds.au.gma:id/product_detailss")
+                        .map((el) => {
+                          return el.getText();
+                        });
+
+                      itemName.push(...large_size);
+                      itemPrice.push(...large_price);
                     }
-                })
-                  
-                // it("should extract the title and price for mcCafe items", async()=>{
-                //   if(await browser.$(`android=${small_cafe}`).isDisplayed()){
+                  });
 
-                      
+                  it("should snap the title and price of the medium and large drinks/shakes", async () => {
+                    if (
+                      await browser.$(`android=${large_drink}`).isDisplayed()
+                    ) {
+                      //click on small menu button
+                      await browser.$(`android=${medium_drink}`).click();
+                      const medium_size_drink = await browser
+                        .$$("id=com.mcdonalds.au.gma:id/product_name")
+                        .map((el) => {
+                          return el.getText();
+                        });
 
-                //     //click on small menu button
-                     
-                //      const small_cafe_drink = await browser
-                //      .$$("id=com.mcdonalds.au.gma:id/product_name")
-                //      .map((el) => {
-                //        return el.getText();
-                //      });
+                      const medium_size_price = await browser
+                        .$$("id=com.mcdonalds.au.gma:id/product_details")
+                        .map((el) => {
+                          return el.getText();
+                        });
 
-                //    const small_cafe_price = await browser
-                //      .$$("id=com.mcdonalds.au.gma:id/product_detailss")
-                //      .map((el) => {
-                //        return el.getText();
-                //      });
+                      itemName.push(...medium_size_drink);
+                      itemPrice.push(...medium_size_price);
 
-                   
+                      await browser.$(`android=${large_drink}`).click();
+                      await browser.pause(4000);
 
-                //    itemName.push(...small_cafe_drink);
-                //    itemPrice.push(...small_cafe_price);
+                      const large_size_drink = await browser
+                        .$$("id=com.mcdonalds.au.gma:id/product_name")
+                        .map((el) => {
+                          return el.getText();
+                        });
 
-                   
+                      const large_size_price = await browser
+                        .$$("id=com.mcdonalds.au.gma:id/product_details")
+                        .map((el) => {
+                          return el.getText();
+                        });
 
-                //    await browser.$(`android=${medium_cafe}`).click();
-                //    await browser.pause(4000)
+                      itemName.push(...large_size_drink);
+                      itemPrice.push(...large_size_price);
+                    }
+                  });
 
-                //    const medium_cafe_drink = await browser
-                //      .$$("id=com.mcdonalds.au.gma:id/product_name")
-                //      .map((el) => {
-                //        return el.getText();
-                //      });
+                  // it("should extract the title and price for mcCafe items", async()=>{
+                  //   if(await browser.$(`android=${small_cafe}`).isDisplayed()){
 
-                //    const medium_cafe_price = await browser
-                //      .$$("id=com.mcdonalds.au.gma:id/product_detailss")
-                //      .map((el) => {
-                //        return el.getText();
-                //      });
+                  //     //click on small menu button
 
-                  
-                //    itemName.push(...medium_cafe_drink);
-                //    itemPrice.push(...medium_cafe_price);
+                  //      const small_cafe_drink = await browser
+                  //      .$$("id=com.mcdonalds.au.gma:id/product_name")
+                  //      .map((el) => {
+                  //        return el.getText();
+                  //      });
 
-                //    await browser.$(`android=${large_cafe}`).click();
-                //    await browser.pause(4000)
+                  //    const small_cafe_price = await browser
+                  //      .$$("id=com.mcdonalds.au.gma:id/product_detailss")
+                  //      .map((el) => {
+                  //        return el.getText();
+                  //      });
 
-                //    const large_cafe_drink = await browser
-                //      .$$("id=com.mcdonalds.au.gma:id/product_name")
-                //      .map((el) => {
-                //        return el.getText();
-                //      });
+                  //    itemName.push(...small_cafe_drink);
+                  //    itemPrice.push(...small_cafe_price);
 
-                //    const large_cafe_price = await browser
-                //      .$$("id=com.mcdonalds.au.gma:id/product_detailss")
-                //      .map((el) => {
-                //        return el.getText();
-                //      });
+                  //    await browser.$(`android=${medium_cafe}`).click();
+                  //    await browser.pause(4000)
 
-                  
-                //    itemName.push(...large_cafe_drink);
-                //    itemPrice.push(...large_cafe_price);
+                  //    const medium_cafe_drink = await browser
+                  //      .$$("id=com.mcdonalds.au.gma:id/product_name")
+                  //      .map((el) => {
+                  //        return el.getText();
+                  //      });
 
-                //   }
-                // })
+                  //    const medium_cafe_price = await browser
+                  //      .$$("id=com.mcdonalds.au.gma:id/product_detailss")
+                  //      .map((el) => {
+                  //        return el.getText();
+                  //      });
+
+                  //    itemName.push(...medium_cafe_drink);
+                  //    itemPrice.push(...medium_cafe_price);
+
+                  //    await browser.$(`android=${large_cafe}`).click();
+                  //    await browser.pause(4000)
+
+                  //    const large_cafe_drink = await browser
+                  //      .$$("id=com.mcdonalds.au.gma:id/product_name")
+                  //      .map((el) => {
+                  //        return el.getText();
+                  //      });
+
+                  //    const large_cafe_price = await browser
+                  //      .$$("id=com.mcdonalds.au.gma:id/product_detailss")
+                  //      .map((el) => {
+                  //        return el.getText();
+                  //      });
+
+                  //    itemName.push(...large_cafe_drink);
+                  //    itemPrice.push(...large_cafe_price);
+
+                  //   }
+                  // })
 
                   it("should click on the cross icon", async () => {
                     await browser
                       .$("id=com.mcdonalds.au.gma:id/slide_back")
                       .click();
-                    
                   });
 
                   //click on the cross button
