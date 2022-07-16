@@ -134,7 +134,7 @@ const data = ["$6.60  2360 kJ",
 
 const filtereData = data.map((data)=>{
 
-    return data.split(" ")[0]
+    return data.split(" ")[2]
 
 })
 

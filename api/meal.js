@@ -9,6 +9,7 @@ const compliedPrice = [
   {
     productName: "Products",
     price: "Price",
+    CaloireInfo : "Caloire Info"
   },
 ];
 
@@ -325,11 +326,12 @@ describe("This case ensures all the products from the searchProd CSV file are en
 
               describe("this test block contains the file writer", async () => {
                 it("should complie the prod name and data into the array of objects and before its written down in the csv file", async () => {
-                  itemPrice.map((data)=> itemPrice.push(data.split(" ")[0]))
+                  itemPrice.map((data)=> itemPrice.push(data))
                   itemName.forEach((value, index) => {
                     compliedPrice.push({
                       productName: itemName[index],
-                      price: itemPrice[index],
+                      price: itemPrice[index].split(" ")[0],
+                      CaloireInfo :  `${itemPrice[index].split(" ")[2]} KJ`
                     });
                   });
                   console.log(compliedPrice);
@@ -340,7 +342,7 @@ describe("This case ensures all the products from the searchProd CSV file are en
                   compliedPrice.map((value) => {
                     fs.writeFileSync(
                       `./results/${searchDataX.storeName}_Product_Extract_${timeStamp}.csv`,
-                      `${value.productName}, ${value.price}\n`,
+                      `${value.productName}, ${value.price},${value.CaloireInfo} \n`,
                       { flag: "a" }
                     );
                     console.log(`Data written in the results folder`);
