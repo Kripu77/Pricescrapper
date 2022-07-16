@@ -120,3 +120,23 @@
 
 // console.log(path.resolve(__dirname, './api/searchMCD.js'))
 
+
+
+const data = ["$6.60  2360 kJ",
+"$11.45  2360 kJ",
+
+"$10.65  2360 kJ",
+"$12.25  2360 kJ",
+"$3.25  378 kJ",
+"$3.80  541 kJ"]
+
+
+
+const filtereData = data.map((data)=>{
+
+    return data.split(" ")[0]
+
+})
+
+
+console.log(filtereData)
