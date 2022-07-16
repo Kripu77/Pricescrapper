@@ -9,7 +9,7 @@ const compliedPrice = [
   {
     productName: "Products",
     price: "Price",
-    CaloireInfo : "Caloire Info"
+     CalorieInfo : "Caloire Info"
   },
 ];
 
@@ -22,8 +22,8 @@ const {
   mealButton_checker,
   small_meal,
   large_meal,
-  medium_drink,
-  large_drink,
+  // medium_drink,
+  // large_drink,
   small_cafe,
   medium_cafe,
   large_cafe,
@@ -173,13 +173,14 @@ describe("This case ensures all the products from the searchProd CSV file are en
                       itemPrice.push(...meal_price);
 
                       //click on small menu button
+                      await browser.pause(4000)
                       await browser.$(`android=${small_meal}`).click();
                       const small_size = await browser
                         .$$("id=com.mcdonalds.au.gma:id/product_name")
                         .map((el) => {
                           return el.getText();
                         });
-
+                       
                       const small_price = await browser
                         .$$("id=com.mcdonalds.au.gma:id/product_detailss")
                         .map((el) => {
@@ -190,14 +191,14 @@ describe("This case ensures all the products from the searchProd CSV file are en
                       itemPrice.push(...small_price);
 
                       //click on large meal
-
+                      await browser.pause(4000)
                       await browser.$(`android=${large_meal}`).click();
                       const large_size = await browser
                         .$$("id=com.mcdonalds.au.gma:id/product_name")
                         .map((el) => {
                           return el.getText();
                         });
-
+                        
                       const large_price = await browser
                         .$$("id=com.mcdonalds.au.gma:id/product_detailss")
                         .map((el) => {
@@ -209,49 +210,49 @@ describe("This case ensures all the products from the searchProd CSV file are en
                     }
                   });
 
-                  it("should snap the title and price of the medium and large drinks/shakes", async () => {
-                    if (
-                      await browser.$(`android=${large_drink}`).isDisplayed()
-                    ) {
-                      //click on small menu button
-                      if(await browser.$(`android=${medium_drink}`).isDisplayed()){
+                  // it("should snap the title and price of the medium and large drinks/shakes", async () => {
+                  //   if (
+                  //     await browser.$(`android=${large_drink}`).isDisplayed()
+                  //   ) {
+                  //     //click on small menu button
+                  //     if(await browser.$(`android=${medium_drink}`).isDisplayed()){
 
                       
-                      await browser.$(`android=${medium_drink}`).click();
-                      const medium_size_drink = await browser
-                        .$$("id=com.mcdonalds.au.gma:id/product_name")
-                        .map((el) => {
-                          return el.getText();
-                        });
+                  //     await browser.$(`android=${medium_drink}`).click();
+                  //     const medium_size_drink = await browser
+                  //       .$$("id=com.mcdonalds.au.gma:id/product_name")
+                  //       .map((el) => {
+                  //         return el.getText();
+                  //       });
 
-                      const medium_size_price = await browser
-                        .$$("id=com.mcdonalds.au.gma:id/product_details")
-                        .map((el) => {
-                          return el.getText();
-                        });
+                  //     const medium_size_price = await browser
+                  //       .$$("id=com.mcdonalds.au.gma:id/product_details")
+                  //       .map((el) => {
+                  //         return el.getText();
+                  //       });
 
-                      itemName.push(...medium_size_drink);
-                      itemPrice.push(...medium_size_price);
-                      }
-                      await browser.$(`android=${large_drink}`).click();
-                      await browser.pause(4000);
+                  //     itemName.push(...medium_size_drink);
+                  //     itemPrice.push(...medium_size_price);
+                  //     }
+                  //     await browser.$(`android=${large_drink}`).click();
+                  //     await browser.pause(4000);
 
-                      const large_size_drink = await browser
-                        .$$("id=com.mcdonalds.au.gma:id/product_name")
-                        .map((el) => {
-                          return el.getText();
-                        });
+                  //     const large_size_drink = await browser
+                  //       .$$("id=com.mcdonalds.au.gma:id/product_name")
+                  //       .map((el) => {
+                  //         return el.getText();
+                  //       });
 
-                      const large_size_price = await browser
-                        .$$("id=com.mcdonalds.au.gma:id/product_details")
-                        .map((el) => {
-                          return el.getText();
-                        });
+                  //     const large_size_price = await browser
+                  //       .$$("id=com.mcdonalds.au.gma:id/product_details")
+                  //       .map((el) => {
+                  //         return el.getText();
+                  //       });
 
-                      itemName.push(...large_size_drink);
-                      itemPrice.push(...large_size_price);
-                    }
-                  });
+                  //     itemName.push(...large_size_drink);
+                  //     itemPrice.push(...large_size_price);
+                  //   }
+                  // });
 
                   it("should extract the title and price for mcCafe items", async()=>{
                     if(await browser.$(`android=${medium_cafe}`).isDisplayed()){
@@ -282,8 +283,12 @@ describe("This case ensures all the products from the searchProd CSV file are en
                          return el.getText();
                        });
 
+                
                      const medium_cafe_price = await browser
-                       .$$("id=com.mcdonalds.au.gma:id/product_detailss")
+                     .$("id=com.mcdonalds.au.gma:id/product_detailss").isExisting()? await browser.$$("id=com.mcdonalds.au.gma:id/product_detailss").map((el) => {
+                      return el.getText();
+                    }) :await browser
+                     .$$("id=com.mcdonalds.au.gma:id/product_details")
                        .map((el) => {
                          return el.getText();
                        });
@@ -299,9 +304,12 @@ describe("This case ensures all the products from the searchProd CSV file are en
                        .map((el) => {
                          return el.getText();
                        });
-
+                       
                      const large_cafe_price = await browser
-                       .$$("id=com.mcdonalds.au.gma:id/product_detailss")
+                     .$("id=com.mcdonalds.au.gma:id/product_detailss").isExisting()? await browser.$$("id=com.mcdonalds.au.gma:id/product_detailss").map((el) => {
+                      return el.getText();
+                    }) :await browser
+                     .$$("id=com.mcdonalds.au.gma:id/product_details")
                        .map((el) => {
                          return el.getText();
                        });
@@ -326,12 +334,15 @@ describe("This case ensures all the products from the searchProd CSV file are en
 
               describe("this test block contains the file writer", async () => {
                 it("should complie the prod name and data into the array of objects and before its written down in the csv file", async () => {
-                  itemPrice.map((data)=> itemPrice.push(data))
+                  await browser.pause(6000);
+                  console.log(itemName)
+                  console.log(itemPrice)
+                   itemPrice.map((data)=> itemPrice.push(data))
                   itemName.forEach((value, index) => {
                     compliedPrice.push({
                       productName: itemName[index],
                       price: itemPrice[index].split(" ")[0],
-                      CaloireInfo :  `${itemPrice[index].split(" ")[2]} KJ`
+                       CalorieInfo :  `${itemPrice.length>7? itemPrice[index].split(" ")[2]+"kJ":"Not Available in App"} `
                     });
                   });
                   console.log(compliedPrice);
@@ -342,11 +353,12 @@ describe("This case ensures all the products from the searchProd CSV file are en
                   compliedPrice.map((value) => {
                     fs.writeFileSync(
                       `./results/${searchDataX.storeName}_Product_Extract_${timeStamp}.csv`,
-                      `${value.productName}, ${value.price},${value.CaloireInfo} \n`,
+                      `${value.productName}, ${value.price}, ${value.CalorieInfo} \n`,
                       { flag: "a" }
                     );
-                    console.log(`Data written in the results folder`);
+                    
                   });
+                
                   //to clean up the array as the state is storing older values, observered this implication while looping over
                   itemName = [];
                   itemPrice = [];
