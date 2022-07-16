@@ -48,5 +48,5 @@ setup babel.config.js file as per the node version
 ## Authors
 
 - [@kripukhadka](https://www.github.com/Kripu77)
-- For any queries and bug report email directly to -  Kripu.khadka@hungryjacks.com.au
+- For any queries and bug report email directly to -  Kripu.12345@gmail.com
 
