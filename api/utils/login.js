@@ -22,7 +22,7 @@ const loginJS = async()=>{
     const selector =
       'new UiSelector().text("Email").className("android.widget.EditText")';
     const input = await $(`android=${selector}`);
-    await input.setValue("JohnathonCarter88@cfal.com.au");
+    await input.setValue("Johnsmith204169@gmail.com");
 
     await browser.pause(1000);
 
@@ -31,7 +31,7 @@ const loginJS = async()=>{
     const selector_two =
       'new UiSelector().text("Password").className("android.widget.EditText")';
     const password = await $(`android=${selector_two}`);
-    await password.setValue("Tomato43");
+    await password.setValue("Megajack1");
 
     await browser.pause(1000);
 

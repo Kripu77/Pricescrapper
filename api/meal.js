@@ -1,6 +1,7 @@
 const { loginJS } = require("./utils/login.js"); //refer to login.js module in this directory, it is used as module
 const { searchProducts } = require("./sources/fileReader.js"); //contains JSON file for the products
 const { searchData } = require("./sources/search.js"); //contains all the stores to be searched.
+const {removeValues} = require("./utils/stringCleaner.js")
 let itemName = []; //initial state to store searched products name
 let itemPrice = []; //initial state to store the item price
 
@@ -338,6 +339,7 @@ describe("This case ensures all the products from the searchProd CSV file are en
                   console.log(itemName)
                   console.log(itemPrice)
                    itemPrice.map((data)=> itemPrice.push(data))
+                  //  itemName= [removeValues(itemName)]; //removes unnecessary string characters
                   itemName.forEach((value, index) => {
                     compliedPrice.push({
                       productName: itemName[index],
