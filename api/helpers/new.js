@@ -122,21 +122,18 @@
 
 
 
-const itemPrice = ["$6.60  ",
-"$11.45  2360 kJ",
-
-"$10.65  2360 kJ",
-"$12.25  2360 kJ",
-"$3.25  378 kJ",
-"$3.80  "]
+const itemPrice = [ '$7.10  2360 kJ',
+   '$12.10  2360 kJ',
+   '$11.30  2360 kJ',
+   '$12.90  2360 kJ']
 
 // itemPrice.map((data)=> itemPrice.push(data))
 
-// const filtereData = data.map((data)=>{
-// console.log(data.length>7)
-//     return data.length>7?data.split(" ")[2]:"Not Available"
+const filtereData = itemPrice.map((data)=>{
+console.log(data.length>5)
+    return data.length>6?data.split(" ")[2]:"Not Available"
 
-// })
-console.log(itemPrice)
+})
+// console.log(itemPrice)
 
-// console.log(filtereData)
+console.log(filtereData)

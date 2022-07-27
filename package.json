@@ -24,6 +24,7 @@
     "@wdio/sync": "^7.19.5",
     "csvtojson": "^2.0.10",
     "exceljs": "^4.3.0",
+    "utf8": "^3.0.0",
     "webdriverio": "^7.19.5",
     "xlsx": "^0.18.5"
   },

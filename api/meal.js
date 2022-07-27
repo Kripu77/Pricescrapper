@@ -1,16 +1,20 @@
 const { loginJS } = require("./utils/login.js"); //refer to login.js module in this directory, it is used as module
 const { searchProducts } = require("./sources/fileReader.js"); //contains JSON file for the products
 const { searchData } = require("./sources/search.js"); //contains all the stores to be searched.
-const {removeValues} = require("./utils/stringCleaner.js")
+const { removeValues } = require("./utils/stringCleaner.js");
 let itemName = []; //initial state to store searched products name
 let itemPrice = []; //initial state to store the item price
+let storeAddress = [];
+let suburb = [];
 
 //initial state of the array of objects which is used as a reference to write down the csv file
 const compliedPrice = [
   {
     productName: "Products",
     price: "Price",
-     CalorieInfo : "Caloire Info"
+    CalorieInfo: "Caloire Info",
+    storeFullAddress: "Full Address",
+    subUrb: "Suburb",
   },
 ];
 
@@ -23,12 +27,25 @@ const {
   mealButton_checker,
   small_meal,
   large_meal,
-  // medium_drink,
-  // large_drink,
   small_cafe,
   medium_cafe,
   large_cafe,
 } = require("./utils/globalVar.js");
+
+const unavailable = async (itemName, itemPrice) => {
+  it("should check if the item is unavailable", async () => {
+    const selector =
+      'new UiSelector().text("Currently unavailable").className("android.widget.EditText")';
+
+    const unavailable = await $(`android=${selector}`);
+
+    (await $(unavailable).isExisting())
+      ? [itemName.push("Unavailable in App"), itemPrice.push("NA")]
+      : console.log("scrapped");
+
+    await browser.pause(1000);
+  });
+};
 
 describe("This case ensures all the products from the searchProd CSV file are entered and record the items", async () => {
   it("should execute the login script", async () => {
@@ -90,6 +107,15 @@ describe("This case ensures all the products from the searchProd CSV file are en
                   'new UiSelector().text("Order Here").className("android.widget.TextView")';
                 const order_btn = await $(`android=${order_selector}`);
                 await order_btn.waitForDisplayed({ timeout: 30000 });
+                const store_address = await browser
+                  .$("id=com.mcdonalds.au.gma:id/store_address")
+                  .getText();
+                const store_city = await browser
+                  .$("id=com.mcdonalds.au.gma:id/store_city")
+                  .getText();
+                storeAddress.push(`${store_address}`);
+                suburb.push(`${store_city}`);
+
                 await order_btn.click();
                 //
                 await browser.pause(6000);
@@ -126,6 +152,7 @@ describe("This case ensures all the products from the searchProd CSV file are en
 
                   it("should get the product name and price in to the array", async () => {
                     await browser.pause(4000);
+                    await unavailable(itemName, itemPrice);
                     const menu_listing = await browser
                       .$("id=com.mcdonalds.au.gma:id/product_title")
                       .getText();
@@ -144,16 +171,15 @@ describe("This case ensures all the products from the searchProd CSV file are en
                       .$$("id=com.mcdonalds.au.gma:id/product_title")[0]
                       .click(); //to ensure it clicks on the 1st menu item
                   });
-                  
 
                   it("should excute this if the make it a meal button exist and collect info of all the meal sizes example: S, R, L", async () => {
                     if (
                       await browser
                         .$(`android=${mealButton_checker}`)
-                        .isDisplayed()
+                        .isExisting()
                     ) {
                       await browser.$(`android=${mealButton_checker}`).click();
-                      await browser.pause(4000);
+                      await browser.pause(2000);
 
                       const meal_size = await browser
                         .$$("id=com.mcdonalds.au.gma:id/product_name")
@@ -174,14 +200,14 @@ describe("This case ensures all the products from the searchProd CSV file are en
                       itemPrice.push(...meal_price);
 
                       //click on small menu button
-                      await browser.pause(4000)
+                      await browser.pause(1000);
                       await browser.$(`android=${small_meal}`).click();
                       const small_size = await browser
                         .$$("id=com.mcdonalds.au.gma:id/product_name")
                         .map((el) => {
                           return el.getText();
                         });
-                       
+
                       const small_price = await browser
                         .$$("id=com.mcdonalds.au.gma:id/product_detailss")
                         .map((el) => {
@@ -192,14 +218,14 @@ describe("This case ensures all the products from the searchProd CSV file are en
                       itemPrice.push(...small_price);
 
                       //click on large meal
-                      await browser.pause(4000)
+                      await browser.pause(1000);
                       await browser.$(`android=${large_meal}`).click();
                       const large_size = await browser
                         .$$("id=com.mcdonalds.au.gma:id/product_name")
                         .map((el) => {
                           return el.getText();
                         });
-                        
+
                       const large_price = await browser
                         .$$("id=com.mcdonalds.au.gma:id/product_detailss")
                         .map((el) => {
@@ -211,115 +237,64 @@ describe("This case ensures all the products from the searchProd CSV file are en
                     }
                   });
 
-                  // it("should snap the title and price of the medium and large drinks/shakes", async () => {
-                  //   if (
-                  //     await browser.$(`android=${large_drink}`).isDisplayed()
-                  //   ) {
-                  //     //click on small menu button
-                  //     if(await browser.$(`android=${medium_drink}`).isDisplayed()){
+                  it("should extract the title and price for mcCafe items", async () => {
+                    if (
+                      await browser.$(`android=${medium_cafe}`).isDisplayed()
+                    ) {
+                      //click on medium button
+                        await browser.$(`android=${medium_cafe}`).click();
+                      await browser.pause(1000);
 
-                      
-                  //     await browser.$(`android=${medium_drink}`).click();
-                  //     const medium_size_drink = await browser
-                  //       .$$("id=com.mcdonalds.au.gma:id/product_name")
-                  //       .map((el) => {
-                  //         return el.getText();
-                  //       });
+                      const medium_cafe_drink = await browser
+                        .$$("id=com.mcdonalds.au.gma:id/product_name")
+                        .map((el) => {
+                          return el.getText();
+                        });
 
-                  //     const medium_size_price = await browser
-                  //       .$$("id=com.mcdonalds.au.gma:id/product_details")
-                  //       .map((el) => {
-                  //         return el.getText();
-                  //       });
+                      const medium_cafe_price = (await browser
+                        .$("id=com.mcdonalds.au.gma:id/product_detailss")
+                        .isExisting())
+                        ? await browser
+                            .$$("id=com.mcdonalds.au.gma:id/product_detailss")
+                            .map((el) => {
+                              return el.getText();
+                            })
+                        : await browser
+                            .$$("id=com.mcdonalds.au.gma:id/product_details")
+                            .map((el) => {
+                              return el.getText();
+                            });
 
-                  //     itemName.push(...medium_size_drink);
-                  //     itemPrice.push(...medium_size_price);
-                  //     }
-                  //     await browser.$(`android=${large_drink}`).click();
-                  //     await browser.pause(4000);
+                      itemName.push(...medium_cafe_drink);
+                      itemPrice.push(...medium_cafe_price);
 
-                  //     const large_size_drink = await browser
-                  //       .$$("id=com.mcdonalds.au.gma:id/product_name")
-                  //       .map((el) => {
-                  //         return el.getText();
-                  //       });
+                      await browser.$(`android=${large_cafe}`).click();
+                      await browser.pause(1000);
 
-                  //     const large_size_price = await browser
-                  //       .$$("id=com.mcdonalds.au.gma:id/product_details")
-                  //       .map((el) => {
-                  //         return el.getText();
-                  //       });
+                      const large_cafe_drink = await browser
+                        .$$("id=com.mcdonalds.au.gma:id/product_name")
+                        .map((el) => {
+                          return el.getText();
+                        });
 
-                  //     itemName.push(...large_size_drink);
-                  //     itemPrice.push(...large_size_price);
-                  //   }
-                  // });
+                      const large_cafe_price = (await browser
+                        .$("id=com.mcdonalds.au.gma:id/product_detailss")
+                        .isExisting())
+                        ? await browser
+                            .$$("id=com.mcdonalds.au.gma:id/product_detailss")
+                            .map((el) => {
+                              return el.getText();
+                            })
+                        : await browser
+                            .$$("id=com.mcdonalds.au.gma:id/product_details")
+                            .map((el) => {
+                              return el.getText();
+                            });
 
-                  it("should extract the title and price for mcCafe items", async()=>{
-                    if(await browser.$(`android=${medium_cafe}`).isDisplayed()){
-
-                      //click on small menu button
-
-                    //    const small_cafe_drink = await browser
-                    //    .$$("id=com.mcdonalds.au.gma:id/product_name")
-                    //    .map((el) => {
-                    //      return el.getText();
-                    //    });
-
-                    //  const small_cafe_price = await browser
-                    //    .$$("id=com.mcdonalds.au.gma:id/product_detailss")
-                    //    .map((el) => {
-                    //      return el.getText();
-                    //    });
-
-                    //  itemName.push(...small_cafe_drink);
-                    //  itemPrice.push(...small_cafe_price);
-
-                     await browser.$(`android=${medium_cafe}`).click();
-                     await browser.pause(4000)
-
-                     const medium_cafe_drink = await browser
-                       .$$("id=com.mcdonalds.au.gma:id/product_name")
-                       .map((el) => {
-                         return el.getText();
-                       });
-
-                
-                     const medium_cafe_price = await browser
-                     .$("id=com.mcdonalds.au.gma:id/product_detailss").isExisting()? await browser.$$("id=com.mcdonalds.au.gma:id/product_detailss").map((el) => {
-                      return el.getText();
-                    }) :await browser
-                     .$$("id=com.mcdonalds.au.gma:id/product_details")
-                       .map((el) => {
-                         return el.getText();
-                       });
-
-                     itemName.push(...medium_cafe_drink);
-                     itemPrice.push(...medium_cafe_price);
-
-                     await browser.$(`android=${large_cafe}`).click();
-                     await browser.pause(4000)
-
-                     const large_cafe_drink = await browser
-                       .$$("id=com.mcdonalds.au.gma:id/product_name")
-                       .map((el) => {
-                         return el.getText();
-                       });
-                       
-                     const large_cafe_price = await browser
-                     .$("id=com.mcdonalds.au.gma:id/product_detailss").isExisting()? await browser.$$("id=com.mcdonalds.au.gma:id/product_detailss").map((el) => {
-                      return el.getText();
-                    }) :await browser
-                     .$$("id=com.mcdonalds.au.gma:id/product_details")
-                       .map((el) => {
-                         return el.getText();
-                       });
-
-                     itemName.push(...large_cafe_drink);
-                     itemPrice.push(...large_cafe_price);
-
+                      itemName.push(...large_cafe_drink);
+                      itemPrice.push(...large_cafe_price);
                     }
-                  })
+                  });
 
                   it("should click on the cross icon", async () => {
                     await browser
@@ -336,15 +311,23 @@ describe("This case ensures all the products from the searchProd CSV file are en
               describe("this test block contains the file writer", async () => {
                 it("should complie the prod name and data into the array of objects and before its written down in the csv file", async () => {
                   await browser.pause(6000);
-                  console.log(itemName)
-                  console.log(itemPrice)
-                   itemPrice.map((data)=> itemPrice.push(data))
-                  //  itemName= [removeValues(itemName)]; //removes unnecessary string characters
+
+                  console.log(itemPrice);
+                  //  itemPrice.map((data)=> itemPrice.push(data))
+
+                  itemName = removeValues(itemName); //removes unnecessary string characters
+                  console.log(itemName);
                   itemName.forEach((value, index) => {
+                    console.log(itemPrice)
                     compliedPrice.push({
                       productName: itemName[index],
                       price: itemPrice[index].split(" ")[0],
-                       CalorieInfo :  `${itemPrice.length>7? itemPrice[index].split(" ")[2]+"kJ":"Not Available in App"} `
+                      CalorieInfo: `${  itemPrice.length > 6
+                          ? itemPrice[index].split(" ")[2] + "kJ"
+                          : "Not Available in App"
+                      } `,
+                      storeFullAddress:`${storeAddress[0]}` ,
+                      subUrb: suburb[0],
                     });
                   });
                   console.log(compliedPrice);
@@ -353,17 +336,20 @@ describe("This case ensures all the products from the searchProd CSV file are en
                 it("should write the data", async () => {
                   // used sync file writer over async to fix up the mix up while writing proccess, use async is any concurrent task.
                   compliedPrice.map((value) => {
+                    console.log(value.storeFullAddress)
                     fs.writeFileSync(
                       `./results/${searchDataX.storeName}_Product_Extract_${timeStamp}.csv`,
-                      `${value.productName}, ${value.price}, ${value.CalorieInfo} \n`,
-                      { flag: "a" }
+                      `"${value.storeFullAddress}", ${value.subUrb}, ${value.productName}, ${value.price}, ${value.CalorieInfo} \n`,
+                      { flag: "a", encoding: "latin1" }
                     );
-                    
                   });
-                
+
                   //to clean up the array as the state is storing older values, observered this implication while looping over
                   itemName = [];
                   itemPrice = [];
+                  storeAddress = [];
+                  suburb = [];
+
                   compliedPrice.splice(1, compliedPrice.length);
                 });
               });
