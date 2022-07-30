@@ -13,7 +13,7 @@ const compliedPrice = [
     productName: "Products",
     price: "Price",
     CalorieInfo: "Caloire Info",
-    storeFullAddress: "Full Address",
+    storeFullAddress: "Store Address",
     subUrb: "Suburb",
   },
 ];
@@ -49,10 +49,12 @@ const unavailable = async (itemName, itemPrice) => {
 
 describe("This case ensures all the products from the searchProd CSV file are entered and record the items", async () => {
   it("should execute the login script", async () => {
+    console.log("Logging the dummy user in");
     return loginJS();
   });
 
   it("should click on the order", async () => {
+    console.log("Going to the ordering menu....");
     await browser.pause(5000);
     const order_icon = "~Order tab 2 of 5";
     await $(order_icon).click();
@@ -69,11 +71,14 @@ describe("This case ensures all the products from the searchProd CSV file are en
 
   describe("Netsted statement for looping over", async () => {
     it("should loop over the stores available", async () => {
+      console.log("Now, I will enter the desired store from the storeList csv file....")
       searchData.forEach((searchDataX) => {
         describe("Statement to execure the store input in a loop", async () => {
           it("should check if the change location button exits", async () => {
             describe("clause", async () => {
               it("should check if the change location button exits", async () => {
+
+                console.log("Wait until the Order Here button is present....")
                 // const changeLocation_checker = await browser.$(
                 //   "id=com.mcdonalds.au.gma:id/location_or_address_text"
                 // );
@@ -159,8 +164,7 @@ describe("This case ensures all the products from the searchProd CSV file are en
                     const price_listing = await browser
                       .$("id=com.mcdonalds.au.gma:id/calorie_price_info")
                       .getText();
-                    console.log(menu_listing);
-                    console.log(price_listing);
+                   
 
                     itemName.push(menu_listing);
                     itemPrice.push(price_listing);
@@ -193,8 +197,7 @@ describe("This case ensures all the products from the searchProd CSV file are en
                           return el.getText();
                         });
 
-                      console.log(meal_size);
-                      console.log(meal_price);
+                    
 
                       itemName.push(...meal_size);
                       itemPrice.push(...meal_price);
@@ -312,13 +315,12 @@ describe("This case ensures all the products from the searchProd CSV file are en
                 it("should complie the prod name and data into the array of objects and before its written down in the csv file", async () => {
                   await browser.pause(6000);
 
-                  console.log(itemPrice);
                   //  itemPrice.map((data)=> itemPrice.push(data))
 
                   itemName = removeValues(itemName); //removes unnecessary string characters
-                  console.log(itemName);
+                
                   itemName.forEach((value, index) => {
-                    console.log(itemPrice)
+                
                     compliedPrice.push({
                       productName: itemName[index],
                       price: itemPrice[index].split(" ")[0],
@@ -336,10 +338,10 @@ describe("This case ensures all the products from the searchProd CSV file are en
                 it("should write the data", async () => {
                   // used sync file writer over async to fix up the mix up while writing proccess, use async is any concurrent task.
                   compliedPrice.map((value) => {
-                    console.log(value.storeFullAddress)
+                  
                     fs.writeFileSync(
                       `./results/${searchDataX.storeName}_Product_Extract_${timeStamp}.csv`,
-                      `"${value.storeFullAddress}", ${value.subUrb}, ${value.productName}, ${value.price}, ${value.CalorieInfo} \n`,
+                      `"${value.storeFullAddress}",${value.subUrb},${value.productName},${value.price},${value.CalorieInfo}\n`,
                       { flag: "a", encoding: "latin1" }
                     );
                   });

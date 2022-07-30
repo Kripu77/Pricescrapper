@@ -5,7 +5,7 @@ exports.config = {
   host: "localhost",
   path: "/wd/hub",
   port: 4723,
-  logLevel: "info",
+  logLevel: "silent",
   framework: "mocha",
   mochaOpts: {
     ui: "bdd",
@@ -30,6 +30,11 @@ exports.config = {
     "automationName": "appium",
     "platformName": "Android",
     "appPackage": "com.mcdonalds.au.gma",
-    "appActivity": "com.mcdonalds.mcdcoreapp.common.activity.SplashActivity"
+    "appActivity": "com.mcdonalds.mcdcoreapp.common.activity.SplashActivity", 
+    // "disableAndroidWatchers": true, 
+    // "isHeadless": true
   }]
 };
+
+
+console.log("Hello, Welcome the scrapping process has started. Please wait as we progress....")
