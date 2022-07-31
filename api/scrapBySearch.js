@@ -2,6 +2,16 @@ const { loginJS } = require("./utils/login.js"); //refer to login.js module in t
 const { searchProducts } = require("./sources/fileReader.js"); //contains JSON file for the products
 const { searchData } = require("./sources/search.js"); //contains all the stores to be searched.
 const { removeValues } = require("./utils/stringCleaner.js");
+const { streamFileWriter } = require("../api/helpers/filewriter");
+const {unavailable} = require("../api/utils/unavailable");
+
+const timeStamp = new Date().toLocaleDateString().replaceAll("/", ""); //timestamp uID for stores
+
+const { backBtn } = require("./utils/backBtnClicker"); //back button clicker module
+
+
+
+
 let itemName = []; //initial state to store searched products name
 let itemPrice = []; //initial state to store the item price
 let storeAddress = [];
@@ -18,10 +28,6 @@ const compliedPrice = [
   },
 ];
 
-const timeStamp = new Date().toLocaleDateString().replaceAll("/", ""); //timestamp uID for stores
-
-const fs = require("fs");
-const { backBtn } = require("./utils/backBtnClicker"); //back button clicker module
 const {
   changeLocation_checker,
   mealButton_checker,
@@ -32,20 +38,7 @@ const {
   large_cafe,
 } = require("./utils/globalVar.js");
 
-const unavailable = async (itemName, itemPrice) => {
-  it("should check if the item is unavailable", async () => {
-    const selector =
-      'new UiSelector().text("Currently unavailable").className("android.widget.EditText")';
 
-    const unavailable = await $(`android=${selector}`);
-
-    (await $(unavailable).isExisting())
-      ? [itemName.push("Unavailable in App"), itemPrice.push("NA")]
-      : console.log("scrapped");
-
-    await browser.pause(1000);
-  });
-};
 
 describe("This case ensures all the products from the searchProd CSV file are entered and record the items", async () => {
   it("should execute the login script", async () => {
@@ -71,17 +64,14 @@ describe("This case ensures all the products from the searchProd CSV file are en
 
   describe("Netsted statement for looping over", async () => {
     it("should loop over the stores available", async () => {
-      console.log("Now, I will enter the desired store from the storeList csv file....")
+      console.log(
+        "Now, I will enter the desired store from the storeList csv file...."
+      );
       searchData.forEach((searchDataX) => {
         describe("Statement to execure the store input in a loop", async () => {
           it("should check if the change location button exits", async () => {
             describe("clause", async () => {
               it("should check if the change location button exits", async () => {
-
-                console.log("Wait until the Order Here button is present....")
-                // const changeLocation_checker = await browser.$(
-                //   "id=com.mcdonalds.au.gma:id/location_or_address_text"
-                // );
                 //execute only if the change location button exist on the view port
                 if (await browser.$(changeLocation_checker).isDisplayed()) {
                   await browser.$(changeLocation_checker).click();
@@ -98,6 +88,9 @@ describe("This case ensures all the products from the searchProd CSV file are en
               });
 
               it("should enter the store name in the input field", async () => {
+                console.log(
+                  "Now, I will start searching store from the searchStore.csv file...."
+                );
                 const store_selector =
                   'new UiSelector().text("Enter Suburb or Postcode").className("android.widget.EditText")';
                 const store_name = await $(`android=${store_selector}`);
@@ -108,6 +101,7 @@ describe("This case ensures all the products from the searchProd CSV file are en
               });
 
               it("should click on the order here button", async () => {
+                console.log("Wait until the Order Here button is present....");
                 const order_selector =
                   'new UiSelector().text("Order Here").className("android.widget.TextView")';
                 const order_btn = await $(`android=${order_selector}`);
@@ -155,16 +149,17 @@ describe("This case ensures all the products from the searchProd CSV file are en
                     await browser.pause(2000); //alter this as per your local connection speed.
                   });
 
+                 
+
                   it("should get the product name and price in to the array", async () => {
                     await browser.pause(4000);
-                    await unavailable(itemName, itemPrice);
+                  
                     const menu_listing = await browser
                       .$("id=com.mcdonalds.au.gma:id/product_title")
                       .getText();
                     const price_listing = await browser
                       .$("id=com.mcdonalds.au.gma:id/calorie_price_info")
                       .getText();
-                   
 
                     itemName.push(menu_listing);
                     itemPrice.push(price_listing);
@@ -196,8 +191,6 @@ describe("This case ensures all the products from the searchProd CSV file are en
                         .map((el) => {
                           return el.getText();
                         });
-
-                    
 
                       itemName.push(...meal_size);
                       itemPrice.push(...meal_price);
@@ -245,7 +238,7 @@ describe("This case ensures all the products from the searchProd CSV file are en
                       await browser.$(`android=${medium_cafe}`).isDisplayed()
                     ) {
                       //click on medium button
-                        await browser.$(`android=${medium_cafe}`).click();
+                      await browser.$(`android=${medium_cafe}`).click();
                       await browser.pause(1000);
 
                       const medium_cafe_drink = await browser
@@ -318,17 +311,17 @@ describe("This case ensures all the products from the searchProd CSV file are en
                   //  itemPrice.map((data)=> itemPrice.push(data))
 
                   itemName = removeValues(itemName); //removes unnecessary string characters
-                
+
                   itemName.forEach((value, index) => {
-                
                     compliedPrice.push({
                       productName: itemName[index],
                       price: itemPrice[index].split(" ")[0],
-                      CalorieInfo: `${  itemPrice.length > 6
+                      CalorieInfo: `${
+                        itemPrice.length > 6
                           ? itemPrice[index].split(" ")[2] + "kJ"
                           : "Not Available in App"
                       } `,
-                      storeFullAddress:`${storeAddress[0]}` ,
+                      storeFullAddress: `${storeAddress[0]}`,
                       subUrb: suburb[0],
                     });
                   });
@@ -337,14 +330,8 @@ describe("This case ensures all the products from the searchProd CSV file are en
 
                 it("should write the data", async () => {
                   // used sync file writer over async to fix up the mix up while writing proccess, use async is any concurrent task.
-                  compliedPrice.map((value) => {
-                  
-                    fs.writeFileSync(
-                      `./results/${searchDataX.storeName}_Product_Extract_${timeStamp}.csv`,
-                      `"${value.storeFullAddress}",${value.subUrb},${value.productName},${value.price},${value.CalorieInfo}\n`,
-                      { flag: "a", encoding: "latin1" }
-                    );
-                  });
+
+                  streamFileWriter(timeStamp, searchDataX, compliedPrice);
 
                   //to clean up the array as the state is storing older values, observered this implication while looping over
                   itemName = [];

@@ -19,7 +19,7 @@ exports.config = {
   specs: [
   
   
-   ` ${path.resolve(__dirname, './api/meal.js')}`
+   ` ${path.resolve(__dirname, './api/scrapBySearch.js')}`
      
      
   ], 
@@ -37,4 +37,4 @@ exports.config = {
 };
 
 
-console.log("Hello, Welcome the scrapping process has started. Please wait as we progress....")
+console.log("Hello, Welcome the scrapping process has started. Please wait as we progress....w")
