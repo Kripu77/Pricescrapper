@@ -65,7 +65,7 @@ describe("This case ensures all the products from the searchProd CSV file are en
   describe("Netsted statement for looping over", async () => {
     it("should loop over the stores available", async () => {
       console.log(
-        "Now, I will enter the desired store from the storeList csv file...."
+        "Now, enter the desired store from the storeList csv file...."
       );
       searchData.forEach((searchDataX) => {
         describe("Statement to execure the store input in a loop", async () => {
@@ -81,19 +81,18 @@ describe("This case ensures all the products from the searchProd CSV file are en
               });
 
               it("should click on the search store btn", async () => {
-                const searchBtn = "~Search icon";
-                await $(searchBtn).click();
+                const searchBtn = "id=com.mcdonalds.au.gma:id/toolbar_search";
+                await browser.$(searchBtn).click();
 
                 await browser.pause(2000);
               });
 
               it("should enter the store name in the input field", async () => {
                 console.log(
-                  "Now, I will start searching store from the searchStore.csv file...."
+                  "Now, start searching store from the searchStore.csv file...."
                 );
-                const store_selector =
-                  'new UiSelector().text("Enter Suburb or Postcode").className("android.widget.EditText")';
-                const store_name = await $(`android=${store_selector}`);
+                const store_selector ='id=com.mcdonalds.au.gma:id/search_text';
+                const store_name = await browser.$(store_selector);
                 await store_name.setValue(`${searchDataX.storeName}`);
 
                 await driver.pressKeyCode(66); //From android docs refer to keyEvent Constant Value: 66 (0x00000042)
@@ -103,8 +102,8 @@ describe("This case ensures all the products from the searchProd CSV file are en
               it("should click on the order here button", async () => {
                 console.log("Wait until the Order Here button is present....");
                 const order_selector =
-                  'new UiSelector().text("Order Here").className("android.widget.TextView")';
-                const order_btn = await $(`android=${order_selector}`);
+                  'id=com.mcdonalds.au.gma:id/store_order_here';
+                const order_btn = await browser.$(order_selector);
                 await order_btn.waitForDisplayed({ timeout: 30000 });
                 const store_address = await browser
                   .$("id=com.mcdonalds.au.gma:id/store_address")
@@ -128,8 +127,8 @@ describe("This case ensures all the products from the searchProd CSV file are en
                 describe("should click and supply the prods to the input field in a loop", async () => {
                   it("should click on the search icon", async () => {
                     await browser.pause(1000);
-                    const search_icon = "~Search";
-                    await $(search_icon).waitForDisplayed({ timeout: 30000 });
+                    const search_icon = "id=com.mcdonalds.au.gma:id/order_wall_header_search_icon";
+                    await browser.$(search_icon).waitForDisplayed({ timeout: 30000 });
 
                     await $(search_icon).click();
 
@@ -141,8 +140,8 @@ describe("This case ensures all the products from the searchProd CSV file are en
                     await browser.pause(1000);
                     //this will select our input form email
                     const selector =
-                      'new UiSelector().text("Search").className("android.widget.EditText")';
-                    const input = await $(`android=${selector}`);
+                      'id=com.mcdonalds.au.gma:id/store_info_search_text';
+                    const input = await browser.$(selector);
                     await input.setValue(`${searchProduct.searchProd}`);
                     await driver.pressKeyCode(66);
 
@@ -196,7 +195,7 @@ describe("This case ensures all the products from the searchProd CSV file are en
                       itemPrice.push(...meal_price);
 
                       //click on small menu button
-                      await browser.pause(1000);
+                      await browser.pause(2000);
                       await browser.$(`android=${small_meal}`).click();
                       const small_size = await browser
                         .$$("id=com.mcdonalds.au.gma:id/product_name")
@@ -214,7 +213,7 @@ describe("This case ensures all the products from the searchProd CSV file are en
                       itemPrice.push(...small_price);
 
                       //click on large meal
-                      await browser.pause(1000);
+                      await browser.pause(2000);
                       await browser.$(`android=${large_meal}`).click();
                       const large_size = await browser
                         .$$("id=com.mcdonalds.au.gma:id/product_name")
@@ -239,7 +238,7 @@ describe("This case ensures all the products from the searchProd CSV file are en
                     ) {
                       //click on medium button
                       await browser.$(`android=${medium_cafe}`).click();
-                      await browser.pause(1000);
+                      await browser.pause(2000);
 
                       const medium_cafe_drink = await browser
                         .$$("id=com.mcdonalds.au.gma:id/product_name")
@@ -265,7 +264,7 @@ describe("This case ensures all the products from the searchProd CSV file are en
                       itemPrice.push(...medium_cafe_price);
 
                       await browser.$(`android=${large_cafe}`).click();
-                      await browser.pause(1000);
+                      await browser.pause(2000);
 
                       const large_cafe_drink = await browser
                         .$$("id=com.mcdonalds.au.gma:id/product_name")

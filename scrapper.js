@@ -37,4 +37,4 @@ exports.config = {
 };
 
 
-console.log("Hello, Welcome the scrapping process has started. Please wait as we progress....w")
+console.log("Welcome the scrapping process has started. Please wait as we progress....w")
