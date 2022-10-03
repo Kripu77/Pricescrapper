@@ -1,7 +1,10 @@
 # MCD PRICE SCRAPPER
 
+
+
 A brief description of what this project does and who it's for
 - This project is a initial release of price scrapper for Mcdonalds Australia via its Native Andorid Application. 
+![Scrapping tool architecture](https://user-images.githubusercontent.com/84505567/193700354-800e433e-57e4-45b3-9a3d-acd6a3b1eef6.png)
 
 # Features:
 - Provide Input as CSV (Stores to be scarped by location + Products) that you would like to be scraped.
