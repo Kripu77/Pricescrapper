@@ -25,7 +25,8 @@ Install MCD PRICE SCRAPPER with npm
   install all the dependenices. 
   npm init --save
 
-  ********Note: These dependecies are only required for fresh setup// npm init --save does the drill if you are looking to make this scrapper work on your machine. ******
+  ********Note: These dependecies are only required for fresh setup// 
+  npm init --save does the drill if you are looking to make this scrapper work on your machine. ******
   npm i webdriverio --save
   npm i @wdio/cli --save
   npm i @wdio/local-runner
@@ -39,7 +40,7 @@ setup babel.config.js file as per the node version
   npm install MCD PRICE SCRAPPER
   cd MCD-PRICE SCrapper. 
 
-  Ensure you have node install in your computer as Node js is the default runtime used. 
+  Ensure you have Node.js installed in your computer as Node js is the default runtime used. 
   - To check go to command and type in:
   Node --v (This will give you the version of node installed in your machine)
 ```
@@ -60,5 +61,5 @@ setup babel.config.js file as per the node version
 ## Authors
 
 - [@kripukhadka](https://www.github.com/Kripu77)
-- For any queries and bug report email directly to -  Kripu.12345@gmail.com
+- For any queries and bug report email directly to - khadkakripu4@gmail.com
 
